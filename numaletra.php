@@ -1,16 +1,16 @@
 <?php
  
 //------    CONVERTIR NUMEROS A LETRAS         ---------------
-//------    Máxima cifra soportada: 18 dígitos con 2 decimales
+//------    MÃ¡xima cifra soportada: 18 dÃ­gitos con 2 decimales
 //------    999,999,999,999,999,999.99
 // NOVECIENTOS NOVENTA Y NUEVE MIL NOVECIENTOS NOVENTA Y NUEVE BILLONES
 // NOVECIENTOS NOVENTA Y NUEVE MIL NOVECIENTOS NOVENTA Y NUEVE MILLONES
 // NOVECIENTOS NOVENTA Y NUEVE MIL NOVECIENTOS NOVENTA Y NUEVE PESOS 99/100 M.N.
 //------    Creada por:                        ---------------
-//------             ULTIMINIO RAMOS GALÁN     ---------------
+//------             ULTIMINIO RAMOS GALÃN     ---------------
 //------            uramos@gmail.com           ---------------
-//------    10 de junio de 2009. México, D.F.  ---------------
-//------    PHP Version 4.3.1 o mayores (aunque podría funcionar en versiones anteriores, tendrías que probar)
+//------    10 de junio de 2009. MÃ©xico, D.F.  ---------------
+//------    PHP Version 4.3.1 o mayores (aunque podrÃ­a funcionar en versiones anteriores, tendrÃ­as que probar)
 function numtoletras($xcifra)
 {
     $xarray = array(0 => "Cero",
@@ -39,39 +39,39 @@ function numtoletras($xcifra)
     for ($xz = 0; $xz < 3; $xz++) {
         $xaux = substr($XAUX, $xz * 6, 6);
         $xi = 0;
-        $xlimite = 6; // inicializo el contador de centenas xi y establezco el límite a 6 dígitos en la parte entera
+        $xlimite = 6; // inicializo el contador de centenas xi y establezco el lÃ­mite a 6 dÃ­gitos en la parte entera
         $xexit = true; // bandera para controlar el ciclo del While
         while ($xexit) {
-            if ($xi == $xlimite) { // si ya llegó al límite máximo de enteros
+            if ($xi == $xlimite) { // si ya llegÃ³ al lÃ­mite mÃ¡ximo de enteros
                 break; // termina el ciclo
             }
  
             $x3digitos = ($xlimite - $xi) * -1; // comienzo con los tres primeros digitos de la cifra, comenzando por la izquierda
-            $xaux = substr($xaux, $x3digitos, abs($x3digitos)); // obtengo la centena (los tres dígitos)
+            $xaux = substr($xaux, $x3digitos, abs($x3digitos)); // obtengo la centena (los tres dÃ­gitos)
             for ($xy = 1; $xy < 4; $xy++) { // ciclo para revisar centenas, decenas y unidades, en ese orden
                 switch ($xy) {
                     case 1: // checa las centenas
-                        if (substr($xaux, 0, 3) < 100) { // si el grupo de tres dígitos es menor a una centena ( < 99) no hace nada y pasa a revisar las decenas
+                        if (substr($xaux, 0, 3) < 100) { // si el grupo de tres dÃ­gitos es menor a una centena ( < 99) no hace nada y pasa a revisar las decenas
                              
                         } else {
                             $key = (int) substr($xaux, 0, 3);
-                            if (TRUE === array_key_exists($key, $xarray)){  // busco si la centena es número redondo (100, 200, 300, 400, etc..)
+                            if (TRUE === array_key_exists($key, $xarray)){  // busco si la centena es nÃºmero redondo (100, 200, 300, 400, etc..)
                                 $xseek = $xarray[$key];
-                                $xsub = subfijo($xaux); // devuelve el subfijo correspondiente (Millón, Millones, Mil o nada)
+                                $xsub = subfijo($xaux); // devuelve el subfijo correspondiente (MillÃ³n, Millones, Mil o nada)
                                 if (substr($xaux, 0, 3) == 100)
                                     $xcadena = " " . $xcadena . " CIEN " . $xsub;
                                 else
                                     $xcadena = " " . $xcadena . " " . $xseek . " " . $xsub;
                                 $xy = 3; // la centena fue redonda, entonces termino el ciclo del for y ya no reviso decenas ni unidades
                             }
-                            else { // entra aquí si la centena no fue numero redondo (101, 253, 120, 980, etc.)
+                            else { // entra aquÃ­ si la centena no fue numero redondo (101, 253, 120, 980, etc.)
                                 $key = (int) substr($xaux, 0, 1) * 100;
                                 $xseek = $xarray[$key]; // toma el primer caracter de la centena y lo multiplica por cien y lo busca en el arreglo (para que busque 100,200,300, etc)
                                 $xcadena = " " . $xcadena . " " . $xseek;
                             } // ENDIF ($xseek)
                         } // ENDIF (substr($xaux, 0, 3) < 100)
                         break;
-                    case 2: // checa las decenas (con la misma lógica que las centenas)
+                    case 2: // checa las decenas (con la misma lÃ³gica que las centenas)
                         if (substr($xaux, 1, 2) < 10) {
                              
                         } else {
@@ -116,7 +116,7 @@ function numtoletras($xcifra)
         if (substr(trim($xcadena), -7, 7) == "ILLONES") // si la cadena obtenida en MILLONES o BILLONES, entoncea le agrega al final la conjuncion DE
             $xcadena.= " DE";
  
-        // ----------- esta línea la puedes cambiar de acuerdo a tus necesidades o a tu país -------
+        // ----------- esta lÃ­nea la puedes cambiar de acuerdo a tus necesidades o a tu paÃ­s -------
         if (trim($xaux) != "") {
             switch ($xz) {
                 case 0:
@@ -144,7 +144,7 @@ function numtoletras($xcifra)
                     break;
             } // endswitch ($xz)
         } // ENDIF (trim($xaux) != "")
-        // ------------------      en este caso, para México se usa esta leyenda     ----------------
+        // ------------------      en este caso, para MÃ©xico se usa esta leyenda     ----------------
         $xcadena = str_replace("VEINTI ", "VEINTI", $xcadena); // quito el espacio para el VEINTI, para que quede: VEINTICUATRO, VEINTIUN, VEINTIDOS, etc
         $xcadena = str_replace("  ", " ", $xcadena); // quito espacios dobles
         $xcadena = str_replace("UN UN", "UN", $xcadena); // quito la duplicidad
@@ -159,7 +159,7 @@ function numtoletras($xcifra)
 // END FUNCTION
  
 function subfijo($xx)
-{ // esta función regresa un subfijo para la cifra
+{ // esta funciÃ³n regresa un subfijo para la cifra
     $xx = trim($xx);
     $xstrlen = strlen($xx);
     if ($xstrlen == 1 || $xstrlen == 2 || $xstrlen == 3)
